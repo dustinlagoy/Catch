@@ -104,7 +104,7 @@ TEST_CASE
 
     REQUIRE( 1.0f == Approx( 1 ) );
     REQUIRE( 0 == Approx( dZero) );
-    REQUIRE( 0 == Approx( dSmall ).epsilon( 0.001 ) );
+    REQUIRE( 0 == Approx( dSmall ).margin( 0.001 ) );
     REQUIRE( 1.234f == Approx( dMedium ) );
     REQUIRE( dMedium == Approx( 1.234f ) );
 }
@@ -118,7 +118,7 @@ TEST_CASE
 {
     double d = 1.23;
 
-    Approx approx = Approx::custom().epsilon( 0.005 );
+    Approx approx = Approx::custom().epsilon( 0.0001 );
 
     REQUIRE( d == approx( 1.23 ) );
     REQUIRE( d == approx( 1.22 ) );
@@ -137,8 +137,8 @@ inline double divide( double a, double b ) {
 
 TEST_CASE( "Approximate PI", "[Approx][PI]" )
 {
-    REQUIRE( divide( 22, 7 ) == Approx( 3.141 ).epsilon( 0.001 ) );
-    REQUIRE( divide( 22, 7 ) != Approx( 3.141 ).epsilon( 0.0001 ) );
+    REQUIRE( divide( 22, 7 ) == Approx( 3.141 ).margin( 0.002 ) );
+    REQUIRE( divide( 22, 7 ) != Approx( 3.141 ).margin( 0.0002 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
