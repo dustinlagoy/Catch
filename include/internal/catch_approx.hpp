@@ -53,7 +53,13 @@ namespace Detail {
         friend bool operator == ( const T& lhs, Approx const& rhs ) {
             // Thanks to Richard Harris for his help refining this formula
             auto lhs_v = double(lhs);
-            bool relativeOK = std::fabs(lhs_v - rhs.m_value) <= rhs.m_epsilon * rhs.m_scale * std::fabs(rhs.m_value);
+            bool relativeOK;
+            if (rhs.m_value == 0.0 && rhs.m_margin == 0.0) {
+                // By default, don't just fail all comparisons to zero
+                relativeOK = std::fabs(lhs_v - rhs.m_value) < rhs.m_scale * std::numeric_limits<float>::min()*100;
+            } else {
+                relativeOK = std::fabs(lhs_v - rhs.m_value) < rhs.m_epsilon * rhs.m_scale * std::fabs(rhs.m_value);
+            }
             if (relativeOK) {
                 return true;
             }
@@ -126,7 +132,13 @@ namespace Detail {
 
         friend bool operator == ( double lhs, Approx const& rhs ) {
             // Thanks to Richard Harris for his help refining this formula
-            bool relativeOK = std::fabs(lhs - rhs.m_value) <= rhs.m_epsilon * rhs.m_scale * std::fabs(rhs.m_value);
+            bool relativeOK;
+            if (rhs.m_value == 0.0 && rhs.m_margin == 0.0) {
+                // By default, don't just fail all comparisons to zero
+                relativeOK = std::fabs(lhs - rhs.m_value) < rhs.m_scale * std::numeric_limits<float>::min()*100;
+            } else {
+                relativeOK = std::fabs(lhs - rhs.m_value) < rhs.m_epsilon * rhs.m_scale * std::fabs(rhs.m_value);
+            }
             if (relativeOK) {
                 return true;
             }

@@ -163,6 +163,19 @@ TEST_CASE( "Small numbers", "[Approx]" ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+TEST_CASE( "Compare with zero", "[Approx]" ) {
+    REQUIRE( 1.0e-37f == Approx(0.0f) );
+    REQUIRE( 1.0e-35f != Approx(0.0f) );
+    REQUIRE( 1.0e-307 == Approx(0.0) );
+    REQUIRE( 1.0e-305 != Approx(0.0) );
+    REQUIRE( 0.00001f == Approx(0.0f).margin( 0.0001 ) );
+    REQUIRE( 0.001f != Approx(0.0f).margin( 0.0001 ) );
+    REQUIRE( 0.00001 == Approx(0.0).margin( 0.0001 ) );
+    REQUIRE( 0.001 != Approx(0.0).margin( 0.0001 ) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 #if defined(CATCH_CONFIG_CPP11_TYPE_TRAITS)
 class StrongDoubleTypedef
 {
