@@ -53,7 +53,7 @@ namespace Detail {
         friend bool operator == ( const T& lhs, Approx const& rhs ) {
             // Thanks to Richard Harris for his help refining this formula
             auto lhs_v = double(lhs);
-            bool relativeOK = std::fabs(lhs_v - rhs.m_value) < rhs.m_epsilon * rhs.m_scale * (std::max)(std::fabs(lhs_v), std::fabs(rhs.m_value));
+            bool relativeOK = std::fabs(lhs_v - rhs.m_value) <= rhs.m_epsilon * rhs.m_scale * (std::max)(std::fabs(lhs_v), std::fabs(rhs.m_value));
             if (relativeOK) {
                 return true;
             }
@@ -126,7 +126,7 @@ namespace Detail {
 
         friend bool operator == ( double lhs, Approx const& rhs ) {
             // Thanks to Richard Harris for his help refining this formula
-            bool relativeOK = std::fabs( lhs - rhs.m_value ) < rhs.m_epsilon * rhs.m_scale * (std::max)( std::fabs(lhs), std::fabs(rhs.m_value) );
+            bool relativeOK = std::fabs( lhs - rhs.m_value ) <= rhs.m_epsilon * rhs.m_scale * (std::max)( std::fabs(lhs), std::fabs(rhs.m_value) );
             if (relativeOK) {
                 return true;
             }
