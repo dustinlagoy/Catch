@@ -153,6 +153,15 @@ TEST_CASE( "Absolute margin", "[Approx]" ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
+TEST_CASE( "Small numbers", "[Approx]" ) {
+    REQUIRE( 1.0e-9 == Approx(1.0e-9) );
+    REQUIRE( 1.0e-9 == Approx(1.000001e-9) );
+    REQUIRE( 1.0e-9 != Approx(1.1e-9) );
+    REQUIRE( 1.0e-9 != Approx(0.0) );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 #if defined(CATCH_CONFIG_CPP11_TYPE_TRAITS)
 class StrongDoubleTypedef
 {
