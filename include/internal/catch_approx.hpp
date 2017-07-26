@@ -23,6 +23,20 @@ namespace Detail {
     class Approx {
     public:
         explicit Approx ( double value )
+        :   m_epsilon( std::numeric_limits<double>::epsilon()*100 ),
+            m_margin( 0.0 ),
+            m_scale( 1.0 ),
+            m_value( value )
+        {}
+
+        explicit Approx ( float value )
+        :   m_epsilon( std::numeric_limits<float>::epsilon()*100 ),
+            m_margin( 0.0 ),
+            m_scale( 1.0 ),
+            m_value( value )
+        {}
+
+        explicit Approx ( int value )
         :   m_epsilon( std::numeric_limits<float>::epsilon()*100 ),
             m_margin( 0.0 ),
             m_scale( 1.0 ),
@@ -37,7 +51,7 @@ namespace Detail {
 
         template <typename T, typename = typename std::enable_if<std::is_constructible<double, T>::value>::type>
         Approx operator()( T value ) {
-            Approx approx( static_cast<double>(value) );
+            Approx approx( value );
             approx.epsilon( m_epsilon );
             approx.margin( m_margin );
             approx.scale( m_scale );
@@ -45,7 +59,7 @@ namespace Detail {
         }
 
         template <typename T, typename = typename std::enable_if<std::is_constructible<double, T>::value>::type>
-        explicit Approx( T value ): Approx(static_cast<double>(value))
+        explicit Approx( T value ): Approx(value)
         {}
 
 
@@ -129,6 +143,13 @@ namespace Detail {
             return approx;
         }
 
+        Approx operator()( float value ) {
+            Approx approx( value );
+            approx.epsilon( m_epsilon );
+            approx.margin( m_margin );
+            approx.scale( m_scale );
+            return approx;
+        }
 
         friend bool operator == ( double lhs, Approx const& rhs ) {
             // Thanks to Richard Harris for his help refining this formula

@@ -106,7 +106,7 @@ TEST_CASE
     REQUIRE( 1.0f == Approx( 1 ) );
     REQUIRE( 0 == Approx( dZero) );
     REQUIRE( 0 == Approx( dSmall ).margin( 0.001 ) );
-    REQUIRE( 1.234f == Approx( dMedium ) );
+    REQUIRE( 1.234f != Approx( dMedium ) );
     REQUIRE( dMedium == Approx( 1.234f ) );
 }
 
@@ -156,7 +156,8 @@ TEST_CASE( "Absolute margin", "[Approx]" ) {
 
 TEST_CASE( "Small numbers", "[Approx]" ) {
     REQUIRE( 1.0e-9 == Approx(1.0e-9) );
-    REQUIRE( 1.0e-9 == Approx(1.000001e-9) );
+    REQUIRE( 1.0e-9f == Approx(1.000001e-9f) );
+    REQUIRE( 1.0e-9 == Approx(1.00000000000001e-9) );
     REQUIRE( 1.0e-9 != Approx(1.1e-9) );
     REQUIRE( 1.0e-9 != Approx(0.0) );
 }
@@ -166,8 +167,6 @@ TEST_CASE( "Small numbers", "[Approx]" ) {
 TEST_CASE( "Compare with zero", "[Approx]" ) {
     REQUIRE( 1.0e-37f == Approx(0.0f) );
     REQUIRE( 1.0e-35f != Approx(0.0f) );
-    REQUIRE( 1.0e-307 == Approx(0.0) );
-    REQUIRE( 1.0e-305 != Approx(0.0) );
     REQUIRE( 0.00001f == Approx(0.0f).margin( 0.0001 ) );
     REQUIRE( 0.001f != Approx(0.0f).margin( 0.0001 ) );
     REQUIRE( 0.00001 == Approx(0.0).margin( 0.0001 ) );
