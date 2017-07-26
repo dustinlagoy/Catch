@@ -37,6 +37,7 @@ TEST_CASE
 
     REQUIRE( d != Approx( 1.231 ) );
     REQUIRE( d == Approx( 1.231 ).epsilon( 0.1 ) );
+    REQUIRE( d != Approx( 0.8 ).epsilon( 0.5 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
