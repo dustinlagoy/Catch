@@ -119,7 +119,26 @@ std::string toString( unsigned int value ) {
 }
 
 template<typename T>
-std::string fpToString( T value, int precision ) {
+std::string fpToScientificString( T value, int precision ) {
+    std::ostringstream oss;
+    oss << std::setprecision( precision )
+        << std::scientific
+        << value;
+    std::string d = oss.str();
+    std::size_t i = d.rfind( 'e' );
+    std::string e = d.substr( i, std::string::npos );
+    d = d.substr( 0, i );
+    i = d.find_last_not_of( '0' );
+    if( i != std::string::npos && i != d.size()-1 ) {
+        if( d[i] == '.' )
+            i++;
+        d = d.substr( 0, i+1 );
+    }
+    return d+e;
+}
+
+template<typename T>
+std::string fpToFixedString( T value, int precision ) {
     std::ostringstream oss;
     oss << std::setprecision( precision )
         << std::fixed
@@ -135,10 +154,16 @@ std::string fpToString( T value, int precision ) {
 }
 
 std::string toString( const double value ) {
-    return fpToString( value, 10 );
+    if (abs (value) > 1e3 or abs( value ) < 1e-3) {
+        return fpToScientificString( value, 10 );
+    }
+    return fpToFixedString( value, 10 );
 }
 std::string toString( const float value ) {
-    return fpToString( value, 5 ) + 'f';
+    if (abs (value) > 1e3 or abs( value ) < 1e-3) {
+        return fpToScientificString( value, 5 ) + 'f';
+    }
+    return fpToFixedString( value, 5 ) + 'f';
 }
 
 std::string toString( bool value ) {
