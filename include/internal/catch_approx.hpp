@@ -190,8 +190,16 @@ namespace Detail {
 #endif
 
         std::string toString() const {
+            double relative_bound;
+            if (m_value == 0.0 && m_margin == 0.0) {
+                relative_bound = m_scale * std::numeric_limits<float>::min()*100;
+            } else {
+                relative_bound = m_epsilon * m_scale * std::fabs(m_value);
+            }
             std::ostringstream oss;
-            oss << "Approx( " << Catch::toString( m_value ) << " )";
+            oss << "Approx( " << Catch::toString( m_value )
+                << " ) Bound: "
+                << Catch::toString( (std::max)( relative_bound, m_margin ) );
             return oss.str();
         }
 
