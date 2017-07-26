@@ -23,9 +23,9 @@ namespace Detail {
     class Approx {
     public:
         explicit Approx ( double value )
-        :   m_epsilon( std::numeric_limits<float>::epsilon() ),
+        :   m_epsilon( std::numeric_limits<float>::epsilon()*100 ),
             m_margin( 0.0 ),
-            m_scale( 100.0 ),
+            m_scale( 1.0 ),
             m_value( value )
         {}
 
